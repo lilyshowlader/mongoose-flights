@@ -9,11 +9,11 @@ const flightSchema =({
   flightNo: Number,
   departs: Date
 }, {
-  timestamps: true
+  // timestamps: true
 })
 
 // Compile the schema into a model and export it
-const Flight = mongoose.model('Flight', movieSchema)
+const Flight = mongoose.model('Flight', flightSchema)
 
 export {
   Flight
