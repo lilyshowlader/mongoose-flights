@@ -46,6 +46,21 @@ function create (req, res) {
   })
 }
 
+// below is the function that allows a user to see the details of the flight
+function show(req, res) {
+  Flight.findById(req.params.id)
+  .then(flight => {
+    res.render('flights/show', { 
+      title: 'Flight Detail', 
+      flight: flight,
+    })    
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect("/")
+  })
+}
+
 
 
 
@@ -55,5 +70,6 @@ function create (req, res) {
 export {
   index,
   newFlight as new, 
-  create
+  create,
+  show
 }
