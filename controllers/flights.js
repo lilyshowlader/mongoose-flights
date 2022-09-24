@@ -61,6 +61,17 @@ function show(req, res) {
   })
 }
 
+// below is the function that allows a user to delete a flight
+function deleteFlight(req, res) {
+  Flight.findByIdAndDelete(req.params.id)
+  .then(() => {
+    res.redirect("/flights")
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect("/")
+  })
+}
 
 
 
@@ -71,5 +82,6 @@ export {
   index,
   newFlight as new, 
   create,
-  show
+  show,
+  deleteFlight as delete
 }

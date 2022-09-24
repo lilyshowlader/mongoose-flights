@@ -16,6 +16,8 @@ router.get('/', flightsCtrl.index)
 // GET /show
 router.get('/:id', flightsCtrl.show)
 
+// DELETE /flights/:id
+router.delete('/:id', flightsCtrl.delete)
 export {
   router
 }
