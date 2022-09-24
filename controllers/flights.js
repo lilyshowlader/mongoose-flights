@@ -1,7 +1,8 @@
 import { Flight } from "../models/flight.js"
 // above we imported the model from the model directory 
 
-
+// below is the function that handles when a user wants to view all flights
+// haven't created the view yet 
 function index(req, res) {
   Flight.find({})
   .then(flights => {
@@ -26,7 +27,24 @@ function newFlight (req, res) {
 }
 
 
+// below is the function that handles the submission of the form that creates a new flight
+function create (req, res) {
+  // convert nowShowing's checkbox of nothing or "on" to boolean
+  req.body.nowShowing = !!req.body.nowShowing
 
+  // replace and split if it's not an empty string
+  if (req.body.cast) {
+		// remove whitespace next to commas
+    req.body.cast = req.body.cast.split(', ')
+  }
+  Flight.create(req.body)
+  .then(flight => {
+    res.redirect(`/flights`)
+  })
+  .catch(err => {
+    res.redirect('/flights')
+  })
+}
 
 
 
@@ -36,5 +54,6 @@ function newFlight (req, res) {
 
 export {
   index,
-  newFlight as new 
+  newFlight as new, 
+  create
 }
