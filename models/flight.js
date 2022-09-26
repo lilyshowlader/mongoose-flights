@@ -4,10 +4,19 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const flightSchema = new Schema ({
-  airline: String,
+  airline: {
+    type: String,
+    required: true,
+    enum: ['Delta', 'MeowMeowAir', 'Emirates', 'Etihad', 'JetBlue', 'MaebyAir', 'MayaAir', 'MiaAir']
+  },
   airport: [String],
-  flightNo: {type: Number, default: ''},
-  departs: Date
+  flightNo: {
+    type: Number, default: '', required: true
+  },
+  departs: {
+    type: Date,
+    required: true 
+  },
 }, {
   // timestamps: true
 })

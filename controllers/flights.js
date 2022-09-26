@@ -2,7 +2,6 @@ import { Flight } from "../models/flight.js"
 // above we imported the model from the model directory 
 
 // below is the function that handles when a user wants to view all flights
-// haven't created the view yet 
 function index(req, res) {
   Flight.find({})
   .then(flights => {
@@ -74,7 +73,20 @@ function deleteFlight(req, res) {
 }
 
 
-
+function edit (req, res) {
+  console.log("edit is working")
+  Flight.findById(req.params.id)
+  .then (flight => {
+    res.render('flights/edit', {
+      flight : flight,
+      title: "Edit Flight"
+    })
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect("/")
+  })
+}
 
 
 
@@ -83,5 +95,6 @@ export {
   newFlight as new, 
   create,
   show,
-  deleteFlight as delete
+  deleteFlight as delete,
+  edit 
 }
