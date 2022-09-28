@@ -1,5 +1,7 @@
 import { Flight } from "../models/flight.js"
 // above we imported the model from the model directory 
+import { Meal } from "../models/meal.js"
+// abovr we are importing the meal model from the model directory 
 
 // below is the function that handles when a user wants to view all flights
 function index(req, res) {
@@ -28,17 +30,9 @@ function newFlight (req, res) {
 
 // below is the function that handles the submission of the form that creates a new flight
 function create (req, res) {
-  // convert nowShowing's checkbox of nothing or "on" to boolean
-  req.body.nowShowing = !!req.body.nowShowing
-
-  // replace and split if it's not an empty string
-  if (req.body.cast) {
-		// remove whitespace next to commas
-    req.body.cast = req.body.cast.split(', ')
-  }
   Flight.create(req.body)
   .then(flight => {
-    res.redirect(`/flights`)
+    res.redirect(`flights/${flight._id}`)
   })
   .catch(err => {
     res.redirect('/flights')
@@ -48,10 +42,15 @@ function create (req, res) {
 // below is the function that allows a user to see the details of the flight
 function show(req, res) {
   Flight.findById(req.params.id)
+  .populate('meals')
   .then(flight => {
-    res.render('flights/show', { 
-      title: 'Flight Detail', 
-      flight: flight,
+    Meal.find({_id: {$nin: flight.meals}})
+    .then(meals => {
+      res.render('flights/show', { 
+        title: 'Flight Detail', 
+        flight: flight,
+        meals: meals
+    })
     })    
   })
   .catch(err => {
@@ -128,6 +127,17 @@ function deleteTicket (req, res) {
 // use save method, whenever you are updating something that has already been created. 
 
 
+function newMeal(req, res) {
+  Flight.findById(req.params.id)
+  .then(flight => {
+    flight.meals.push(req.body.mealId)
+    flight.save()
+		.then(() => {
+		  res.redirect(`/flights/${flight._id}`)
+		})
+  })
+}
+
 
 export {
   index,
@@ -138,5 +148,6 @@ export {
   edit,
   update,
   createTicket,
-  deleteTicket 
+  deleteTicket,
+  newMeal
 }

@@ -11,3 +11,10 @@ const Meal = mongoose.model('Meal', MealSchema)
 export {
   Meal
 }
+
+
+
+
+
+
+	

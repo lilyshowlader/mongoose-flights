@@ -6,6 +6,9 @@ const router = Router()
 // GET /meals/new
 router.get('/new', mealsCtrl.new)
 
+// POST/performers
+router.post('/', mealsCtrl.create)
+
 export { 
   router
 }

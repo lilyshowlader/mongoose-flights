@@ -13,12 +13,33 @@
     <div><%= flight.flightNo %></div>
     <div>Departure: </div>
     <div><%= flight.departs %></div>
-    <div>
-      <a href="/flights/<%= flight._id %>/edit">
-        <button>Edit Flight</button>
-      </a>
-    </div>
+
+
+  	<%# start meals list %>
+    <div>Meals:</div>
+      <ul>
+        <% flight.meals.forEach(newMeal => { %>
+          <li><%= newMeal.name %></li>
+        <% }) %>
+     </ul>
+  <%# end meals list %>
   </section>
+
+<%# add to meal form below this comment %>
+  <form id="add-to-meals" action="/flights/<%= flight.id %>/meals" method="POST">
+    <select name="mealId">
+      <% meals.forEach(meal => { %>
+        <option value="<%= meal._id %>"><%= meal.name %></option>
+      <% }) %>
+    </select>
+    <button type="submit">Add to Meals</button>
+  </form>
+
+
+
+
+
+
   <h2> Add Tickets</h2>
   <form 
     id="add-ticket-form"
@@ -33,6 +54,8 @@
     <button type="submit">Add Ticket</button>
   </form>
   
+
+
   <h2>All Tickets</h2>
   <% if (flight.tickets.length) { %>
     <table id="table">
@@ -62,6 +85,11 @@
     <h3>No Tickets Yet</h3>
   <% } %>
 
+  <div>
+    <a href="/flights/<%= flight._id %>/edit">
+      <button>Edit Flight</button>
+    </a>
+  </div>
 </main>
   
 <%- include('../partials/footer') %>
