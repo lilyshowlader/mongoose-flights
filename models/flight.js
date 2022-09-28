@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 
+
 // optional shortcut to the mongoose.Schema class
 const Schema = mongoose.Schema
 
@@ -26,9 +27,13 @@ const flightSchema = new Schema ({
   },
   departs: {
     type: Date,
+    default: function () {
+      return new Date().setFullYear(new Date().getFullYear() + 1)
+    },
     required: true 
   },
-  tickets: ticketSchema
+  tickets: [ticketSchema],
+  meals: [{type:Schema.Types.ObjectId, ref: "Meal"}]
 }, {
   // timestamps: true
 })

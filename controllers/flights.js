@@ -100,6 +100,33 @@ function update (req, res) {
   })
 }
 
+function createTicket (req, res) {
+  console.log("hello I am working")
+  Flight.findById(req.params.id)
+  .then(flight => {
+    flight.tickets.push(req.body)
+    flight.save()
+    .then(() => {
+      res.redirect(`/flights/${flight._id}`)
+    })
+  })
+}
+
+function deleteTicket (req, res) {
+  console.log("delete ticket is working")
+  Flight.findById(req.params.id)
+  .then(flight => {
+    flight.tickets.remove({id:req.params.ticketId})
+    flight.save()
+    .then(() => {
+      res.redirect(`/flights/${flight._id}`)
+    })
+  })
+}
+
+//when you are trying to remeove a subdoc, using .remove, you can use parameters to remove a specific ticket
+// use save method, whenever you are updating something that has already been created. 
+
 
 
 export {
@@ -109,5 +136,7 @@ export {
   show,
   deleteFlight as delete,
   edit,
-  update 
+  update,
+  createTicket,
+  deleteTicket 
 }
